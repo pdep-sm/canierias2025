@@ -24,11 +24,6 @@ precio(canilla(Tipo,_,Ancho), 12):- Tipo \= triangular, Ancho =< 5.
 precio(canilla(Tipo,_,Ancho), 15):- Tipo \= triangular, Ancho > 5.
 
 % 2 - 
-puedoEnchufar(PiezaIzquierda, PiezaDerecha):-
-    color(PiezaIzquierda, ColorIzquierdo),
-    color(PiezaDerecha, ColorDerecho),
-    coloresEnchufables(ColorIzquierdo, ColorDerecho).
-
 coloresEnchufables(Color, Color).
 coloresEnchufables(azul, rojo).
 coloresEnchufables(rojo, negro).
@@ -36,6 +31,14 @@ coloresEnchufables(rojo, negro).
 color(canio(Color, _), Color).
 color(codo(Color), Color).
 color(canilla(_, Color, _), Color).
+color(extremo(Color, _), Color).
+
+puedoEnchufar(PiezaIzquierda, PiezaDerecha):-
+    color(PiezaIzquierda, ColorIzquierdo),
+    color(PiezaDerecha, ColorDerecho),
+    PiezaIzquierda \= extremo(_, derecho),
+    PiezaDerecha \= extremo(_, izquierdo),
+    coloresEnchufables(ColorIzquierdo, ColorDerecho).
 
 % 3 - 
 puedoEnchufar(Canieria, PiezaOCanieria):-
@@ -50,3 +53,21 @@ puedoEnchufar(Canieria1, [PiezaDerecha|_]):-
     last(Canieria, PiezaIzquierda),
     puedoEnchufar(PiezaIzquierda, PiezaDerecha).
 */
+
+% 4 - 
+canieriaBienArmada([_]).
+canieriaBienArmada([PiezaIzquierda,PiezaDerecha|Piezas]):-
+    puedoEnchufar(PiezaIzquierda, PiezaDerecha),
+    canieriaBienArmada([PiezaDerecha|Piezas]).
+
+% 5 - 
+% Agregamos arriba la relación de extremo y color
+
+% 6 - 
+% [codo(azul), [codo(rojo), codo(negro)], codo(negro)]
+% debido a la extensión del punto 3 del puedoEnchufar/2, ya se banca estas estructuras
+
+% 7 - 
+% canieriasLegales(Piezas, CanieriaLegal):-
+% Piezas -> [codo(azul), codo(negro), codo(rojo)]
+% Canieria -> [codo(azul), codo(rojo), codo(negro)]
