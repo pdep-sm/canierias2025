@@ -30,9 +30,9 @@ test(precioCanieriaCompleja, [nondet]) :-
 
 :- end_tests(precio).
 
-%---
+% ---
 
-:- begin_tests(puedoEnchufar).
+:- begin_tests(puedoEnchufarEntrePiezas).
 
 % Tests para el predicado puedoEnchufar/2 (entre piezas)
 test(puedoEnchufarMismoColor, [nondet]) :-
@@ -49,6 +49,10 @@ test(noPuedoEnchufarColoresNoCompatiblesVerdeAzul, [fail]) :-
 
 test(noPuedoEnchufarAzulNegro, [fail]) :-
     puedoEnchufar(canio(azul, 1), codo(negro)).
+
+:- end_tests(puedoEnchufarEntrePiezas).
+
+:- begin_tests(puedoEnchufarEntrePiezasYCanierias).
 
 % Tests para el predicado puedoEnchufar/2 (entre cañería y pieza)
 test(puedoEnchufarCanieriaPiezaExtremoCompatibleAzulRojo, [nondet]) :-
@@ -74,7 +78,34 @@ test(puedoEnchufarCanieriasCompatiblesAzulRojo, [nondet]) :-
 test(noPuedoEnchufarCanieriasIncompatiblesNegroAzul, [fail]) :-
     puedoEnchufar([canio(rojo, 1), codo(negro)], [codo(azul), canio(azul, 2)]).
 
-:- end_tests(puedoEnchufar).
+:- end_tests(puedoEnchufarEntrePiezasYCanierias).
 
+:- begin_tests(generacionDeCanieriasLegales).
+
+test(testCanieriasLegales1, [nondet]) :-
+    canieriasLegales([canio(rojo, 1), codo(azul), codo(negro)], [codo(azul), canio(rojo,1), codo(negro)]).
+
+test(testCanieriasLegales2, [nondet]) :-
+    canieriasLegales2([canio(rojo, 1), codo(azul), codo(negro)], [codo(azul), canio(rojo,1), codo(negro)]).
+
+test(testCanieriasLegales3, [nondet]) :-
+    canieriasLegales3([canio(rojo, 1), codo(azul), codo(negro)], [codo(azul), canio(rojo,1), codo(negro)]).
+
+test(testCanieriasLegales4, [nondet]) :-
+    canieriasLegales4([canio(rojo, 1), codo(azul), codo(negro)], [codo(azul), canio(rojo,1), codo(negro)]).
+
+test(testCanieriasLegalesFalla, [fail]) :-
+    canieriasLegales([canio(rojo, 1), codo(azul), codo(negro)], [canio(rojo, 1), codo(azul), codo(negro)]).
+
+test(testCanieriasLegales2Falla, [fail]) :-
+    canieriasLegales2([canio(rojo, 1), codo(azul), codo(negro)], [canio(rojo, 1), codo(azul), codo(negro)]).
+
+test(testCanieriasLegales3Falla, [fail]) :-
+    canieriasLegales3([canio(rojo, 1), codo(azul), codo(negro)], [canio(rojo, 1), codo(azul), codo(negro)]).
+
+test(testCanieriasLegales4Falla, [fail]) :-
+    canieriasLegales4([canio(rojo, 1), codo(azul), codo(negro)], [canio(rojo, 1), codo(azul), codo(negro)]).
+    
+:- end_tests(generacionDeCanieriasLegales).
 % Dejar esto al final del archivo para que se ejecuten automáticamente al cargarlo mediante SWI Prolog.
 :- run_tests.

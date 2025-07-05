@@ -71,3 +71,32 @@ canieriaBienArmada([PiezaIzquierda,PiezaDerecha|Piezas]):-
 % canieriasLegales(Piezas, CanieriaLegal):-
 % Piezas -> [codo(azul), codo(negro), codo(rojo)]
 % Canieria -> [codo(azul), codo(rojo), codo(negro)]
+canieriasLegales([Pieza], [Pieza]).
+canieriasLegales(Piezas, [Pieza | CanieriaLegal]):-
+    select(Pieza, Piezas, RestoPiezas),
+    canieriasLegales(RestoPiezas, CanieriaLegal),
+    canieriaBienArmada([Pieza | CanieriaLegal]).
+
+% Solución 2 ----
+canieriasLegales2(Piezas, CanieriaLegal):-
+    posibleCanieria(Piezas, CanieriaLegal),
+    canieriaBienArmada(CanieriaLegal).
+
+posibleCanieria([Pieza], [Pieza]).
+posibleCanieria(Piezas, [Pieza | PosibleCanieria]):-
+    select(Pieza, Piezas, RestoPiezas),
+    posibleCanieria(RestoPiezas, PosibleCanieria).
+
+% Solución 3 ----
+canieriasLegales3(Piezas, CanieriaLegal):-
+    permutation(Piezas, CanieriaLegal),
+    canieriaBienArmada(CanieriaLegal).
+
+% Solución 4 ----
+canieriasLegales4([Pieza], [Pieza]).
+canieriasLegales4(Piezas, [Pieza | CanieriaLegal]):-
+    select(Pieza, Piezas, RestoPiezas),
+    canieriasLegales4(RestoPiezas, CanieriaLegal),
+    puedoEnchufar(Pieza, CanieriaLegal).
+
+
